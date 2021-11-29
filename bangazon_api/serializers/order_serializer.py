@@ -14,4 +14,4 @@ class UpdateOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PaymentType
-        fields = ('paymentTypeId',)
+        fields = ('payment_type',)

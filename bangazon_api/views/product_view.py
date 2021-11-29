@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.db.models.aggregates import Min
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -160,7 +161,7 @@ class ProductView(ViewSet):
     def list(self, request):
         """Get a list of all products"""
         products = Product.objects.all()
-
+        price = request.query_params.get('min_price', None)
         number_sold = request.query_params.get('number_sold', None)
         category = request.query_params.get('category', None)
         order = request.query_params.get('order_by', None)
@@ -170,6 +171,10 @@ class ProductView(ViewSet):
             products = products.annotate(
                 order_count=Count('orders')
             ).filter(order_count__gt=number_sold)
+        if price:
+            products = products.annotate(
+                min_price=Min('price')
+            ).filter(min_price__gt=price)
 
         if order is not None:
             order_filter = f'-{order}' if direction == 'desc' else order

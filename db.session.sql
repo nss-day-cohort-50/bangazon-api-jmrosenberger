@@ -21,4 +21,11 @@ FROM bangazon_api_orderproduct op
 JOIN bangazon_api_product p
     ON op.product_id = p.id
 GROUP BY p.name
-ORDER BY number_sold DESC
+ORDER BY number_sold DESC;
+
+SELECT AVG(r.score) AS Rating, p.name AS Product_Name
+FROM bangazon_api_product p
+LEFT JOIN bangazon_api_rating r
+    ON r.product_id = p.id
+GROUP BY p.name;
+

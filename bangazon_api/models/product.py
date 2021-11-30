@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from drf_yasg.openapi import Response
 
 
 class Product(models.Model):
@@ -29,12 +30,15 @@ class Product(models.Model):
         # TODO: Fix Divide by zero error
         # The below code returns a divide by zero error uncomment and fix
 
-        # total_rating = 0
-        # for rating in self.ratings.all():
-        #     total_rating += rating.rating
+        try:
+            total_rating = 0
+            for rating in self.ratings.all():
+                total_rating += rating.score
 
-        # avg = total_rating / self.ratings.count()
-        # return avg
+            avg = total_rating / self.ratings.count()
+            return avg
+        except ZeroDivisionError:
+            return 'This product has no ratings'
 
     def __str__(self):
         return self.name

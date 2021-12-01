@@ -29,3 +29,10 @@ LEFT JOIN bangazon_api_rating r
     ON r.product_id = p.id
 GROUP BY p.name;
 
+
+SELECT s.name AS Store_Name, u.last_name AS Customer
+FROM bangazon_api_store s
+LEFT JOIN bangazon_api_favorite f
+    ON s.id = f.store_id
+JOIN auth_user u
+    ON u.id = f.customer_id

@@ -10,7 +10,7 @@ class OrderSerializer(serializers.ModelSerializer):
         depth = 1
 
 class UpdateOrderSerializer(serializers.ModelSerializer):
-    paymentTypeId = serializers.IntegerField()
+    payment_type = serializers.IntegerField()
 
     class Meta:
         model = PaymentType
